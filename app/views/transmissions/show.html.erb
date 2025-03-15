@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @transmission %>
+
+<div>
+  <%= link_to "Edit this transmission", edit_transmission_path(@transmission) %> |
+  <%= link_to "Back to transmissions", transmissions_path %>
+
+  <%= button_to "Destroy this transmission", @transmission, method: :delete %>
+</div>

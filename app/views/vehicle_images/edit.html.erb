@@ -1,0 +1,12 @@
+<% content_for :title, "Editing vehicle image" %>
+
+<h1>Editing vehicle image</h1>
+
+<%= render "form", vehicle_image: @vehicle_image %>
+
+<br>
+
+<div>
+  <%= link_to "Show this vehicle image", @vehicle_image %> |
+  <%= link_to "Back to vehicle images", vehicle_images_path %>
+</div>

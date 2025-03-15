@@ -1,0 +1,39 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  brand: one
+  model: MyString
+  vehicle_type: one
+  segment: one
+  registration_year: 1
+  registration_month: 1
+  mileage: 1
+  price: 9.99
+  fuel_type: one
+  power_hp: 1
+  engine_size: 1
+  transmission: one
+  color: MyString
+  doors: 1
+  condition: one
+  description: MyText
+  status: MyString
+
+two:
+  brand: two
+  model: MyString
+  vehicle_type: two
+  segment: two
+  registration_year: 1
+  registration_month: 1
+  mileage: 1
+  price: 9.99
+  fuel_type: two
+  power_hp: 1
+  engine_size: 1
+  transmission: two
+  color: MyString
+  doors: 1
+  condition: two
+  description: MyText
+  status: MyString

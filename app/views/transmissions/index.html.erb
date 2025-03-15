@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Transmissions" %>
+
+<h1>Transmissions</h1>
+
+<div id="transmissions">
+  <% @transmissions.each do |transmission| %>
+    <%= render transmission %>
+    <p>
+      <%= link_to "Show this transmission", transmission %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New transmission", new_transmission_path %>

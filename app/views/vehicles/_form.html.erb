@@ -1,0 +1,107 @@
+<%= form_with(model: vehicle) do |form| %>
+  <% if vehicle.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h2>
+
+      <ul>
+        <% vehicle.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :brand_id, style: "display: block" %>
+    <%= form.text_field :brand_id %>
+  </div>
+
+  <div>
+    <%= form.label :model, style: "display: block" %>
+    <%= form.text_field :model %>
+  </div>
+
+  <div>
+    <%= form.label :vehicle_type_id, style: "display: block" %>
+    <%= form.text_field :vehicle_type_id %>
+  </div>
+
+  <div>
+    <%= form.label :segment_id, style: "display: block" %>
+    <%= form.text_field :segment_id %>
+  </div>
+
+  <div>
+    <%= form.label :registration_year, style: "display: block" %>
+    <%= form.number_field :registration_year %>
+  </div>
+
+  <div>
+    <%= form.label :registration_month, style: "display: block" %>
+    <%= form.number_field :registration_month %>
+  </div>
+
+  <div>
+    <%= form.label :mileage, style: "display: block" %>
+    <%= form.number_field :mileage %>
+  </div>
+
+  <div>
+    <%= form.label :price, style: "display: block" %>
+    <%= form.text_field :price %>
+  </div>
+
+  <div>
+    <%= form.label :fuel_type_id, style: "display: block" %>
+    <%= form.text_field :fuel_type_id %>
+  </div>
+
+  <div>
+    <%= form.label :power_hp, style: "display: block" %>
+    <%= form.number_field :power_hp %>
+  </div>
+
+  <div>
+    <%= form.label :engine_size, style: "display: block" %>
+    <%= form.number_field :engine_size %>
+  </div>
+
+  <div>
+    <%= form.label :transmission_id, style: "display: block" %>
+    <%= form.text_field :transmission_id %>
+  </div>
+
+  <div>
+    <%= form.label :color, style: "display: block" %>
+    <%= form.text_field :color %>
+  </div>
+
+  <div>
+    <%= form.label :doors, style: "display: block" %>
+    <%= form.number_field :doors %>
+  </div>
+
+  <div>
+    <%= form.label :condition_id, style: "display: block" %>
+    <%= form.text_field :condition_id %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.textarea :description %>
+  </div>
+
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+
+  <div class="field">
+  <%= form.label :images, "Imagens da Viatura" %>
+  <%= form.file_field :images, multiple: true, class: 'form-control' %>
+</div>
+<% end %>

@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Conditions" %>
+
+<h1>Conditions</h1>
+
+<div id="conditions">
+  <% @conditions.each do |condition| %>
+    <%= render condition %>
+    <p>
+      <%= link_to "Show this condition", condition %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New condition", new_condition_path %>

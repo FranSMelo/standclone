@@ -1,0 +1,11 @@
+<% content_for :title, "New transmission" %>
+
+<h1>New transmission</h1>
+
+<%= render "form", transmission: @transmission %>
+
+<br>
+
+<div>
+  <%= link_to "Back to transmissions", transmissions_path %>
+</div>
