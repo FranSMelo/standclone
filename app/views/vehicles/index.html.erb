@@ -1,16 +1,368 @@
-<p style="color: green"><%= notice %></p>
-
-<% content_for :title, "Vehicles" %>
-
-<h1>Vehicles</h1>
-
-<div id="vehicles">
-  <% @vehicles.each do |vehicle| %>
-    <%= render vehicle %>
-    <p>
-      <%= link_to "Show this vehicle", vehicle %>
-    </p>
-  <% end %>
+<div class="container-fluid stock-page">
+  <div class="stock-header text-center">
+    <h1>O nosso Stock</h1>
+    <h2>EXCELENTES NEGÓCIOS PARA SI</h2>
+  </div>
+  
+  <div class="sorting-section">
+    <div class="sorting-control">
+      <span>Ordenar por:</span>
+      <select class="sort-select">
+        <option>Marca: A a Z</option>
+        <option>Preço: Menor para Maior</option>
+        <option>Preço: Maior para Menor</option>
+        <option>Ano: Mais recente</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="vehicles-grid">
+    <% @vehicles.each do |vehicle| %>
+      <div class="vehicle-card-wrapper">
+        <%= link_to vehicle_path(vehicle), class: "vehicle-card-link" do %>
+          <div class="vehicle-card">
+            <div class="vehicle-image-container">
+              <% if vehicle.images.attached? %>
+                <%= image_tag vehicle.images.first, alt: "#{vehicle.brand.name} #{vehicle.model}" %>
+              <% else %>
+                <%= image_tag "placeholder.png", alt: "No image available" %>
+              <% end %>
+            </div>
+            
+            <div class="vehicle-details">
+              <div class="vehicle-header">
+                <div class="vehicle-title-section">
+                  <h3 class="vehicle-brand"><%= vehicle.brand.name %></h3>
+                  <h4 class="vehicle-model"><%= vehicle.model %></h4>
+                </div>
+                <div class="vehicle-price-section">
+                  <span class="price-label">Preço</span>
+                  <span class="price-value"><%= number_with_delimiter(vehicle.price.to_i, delimiter: " ") %> €</span>
+                </div>
+              </div>
+              
+              <div class="vehicle-specs-section">
+                <div class="spec-item">
+                  <div class="spec-icon registration-icon"></div>
+                  <div class="spec-details">
+                    <span class="spec-label">Registo</span>
+                    <span class="spec-value">
+                      <% months = %w(Jan Fev Mar Abr Mai Jun Jul Ago Set Out Nov Dez) %>
+                      <%= months[vehicle.registration_month.to_i - 1] rescue "N/A" %>. <%= vehicle.registration_year %>
+                    </span>
+                  </div>
+                </div>
+                
+                <div class="spec-item">
+                  <div class="spec-icon fuel-icon"></div>
+                  <div class="spec-details">
+                    <span class="spec-label">Combustível</span>
+                    <span class="spec-value"><%= vehicle.fuel_type.name %></span>
+                  </div>
+                </div>
+                
+                <div class="spec-item">
+                  <div class="spec-icon mileage-icon"></div>
+                  <div class="spec-details">
+                    <span class="spec-label">Quilómetros</span>
+                    <span class="spec-value"><%= number_with_delimiter(vehicle.mileage) %></span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="more-options">•••</div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>
 
-<%= link_to "New vehicle", new_vehicle_path %>
+<style>
+  /* Reset e estilos base */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #111111;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Container principal */
+  .stock-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 15px;
+  }
+  
+  /* Cabeçalho */
+  .stock-header {
+    margin-bottom: 50px;
+  }
+  
+  .stock-header h1 {
+    font-size: 42px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 5px;
+    letter-spacing: -0.5px;
+  }
+  
+  .stock-header h2 {
+    font-size: 18px;
+    color: #e63946;
+    font-weight: 500;
+    margin-top: 0;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Seção de ordenação */
+  .sorting-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+  }
+  
+  .sorting-control {
+    display: flex;
+    align-items: center;
+  }
+  
+  .sorting-control span {
+    color: white;
+    margin-right: 10px;
+    font-size: 14px;
+  }
+  
+  .sort-select {
+    background-color: #222222;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+  }
+  
+  /* Grid de veículos */
+  .vehicles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  /* Card do veículo */
+  .vehicle-card-wrapper {
+    width: 100%;
+  }
+  
+  .vehicle-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  
+  .vehicle-card {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    position: relative;
+    height: 180px;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  
+  .vehicle-card:hover {
+    transform: translateY(-3px);
+  }
+  
+  .vehicle-image-container {
+    width: 33%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .vehicle-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  .vehicle-details {
+    width: 67%;
+    padding: 15px 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Header com título e preço */
+  .vehicle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+  }
+  
+  /* Título do veículo */
+  .vehicle-title-section {
+    flex: 1;
+  }
+  
+  .vehicle-brand {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+    color: white;
+  }
+  
+  .vehicle-model {
+    font-size: 16px;
+    margin: 5px 0 0 0;
+    font-weight: 400;
+    color: #cccccc;
+    line-height: 1;
+  }
+  
+  /* Seção de preço */
+  .vehicle-price-section {
+    text-align: right;
+  }
+  
+  .price-label {
+    display: block;
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 2px;
+  }
+  
+  .price-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: #e63946;
+  }
+  
+  /* Seção de especificações */
+  .vehicle-specs-section {
+    display: flex;
+    gap: 30px;
+  }
+  
+  /* Cada item de especificação */
+  .spec-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .spec-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #2a2a2a;
+    margin-right: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 18px;
+    flex-shrink: 0;
+  }
+  
+  .registration-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23e63946' viewBox='0 0 448 512'%3E%3Cpath d='M128 0c17.7 0 32 14.3 32 32V64H288V32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v48H0V112C0 85.5 21.5 64 48 64H96V32c0-17.7 14.3-32 32-32zM0 192H448V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V192zm64 80v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16zm128 0v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H208c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H336z'%3E%3C/path%3E%3C/svg%3E");
+  }
+  
+  .fuel-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23e63946' viewBox='0 0 512 512'%3E%3Cpath d='M32 64C32 28.7 60.7 0 96 0H256c35.3 0 64 28.7 64 64V256h8c48.6 0 88 39.4 88 88v32c0 13.3 10.7 24 24 24s24-10.7 24-24V222c-27.6-7.1-48-32.2-48-62V96L384 64c-8.8-8.8-8.8-23.2 0-32s23.2-8.8 32 0l77.3 77.3c12 12 18.7 28.3 18.7 45.3V168v24 32V376c0 39.8-32.2 72-72 72s-72-32.2-72-72V344c0-22.1-17.9-40-40-40h-8V448c17.7 0 32 14.3 32 32v32H32V480c0-17.7 14.3-32 32-32V64zM96 48c-8.8 0-16 7.2-16 16V448H272V64c0-8.8-7.2-16-16-16H96zM112 176c0-8.8 7.2-16 16-16H240c8.8 0 16 7.2 16 16s-7.2 16-16 16H128c-8.8 0-16-7.2-16-16z'%3E%3C/path%3E%3C/svg%3E");
+  }
+  
+  .mileage-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23e63946' viewBox='0 0 512 512'%3E%3Cpath d='M512 256c0 141.4-114.6 256-256 256S0 397.4 0 256 114.6 0 256 0s256 114.6 256 256zM280 336c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v32c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8v-32zm0-192c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v128c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V144z'%3E%3C/path%3E%3C/svg%3E");
+  }
+  
+  .spec-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .spec-label {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 0;
+  }
+  
+  .spec-value {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 500;
+  }
+  
+  /* Mais opções */
+  .more-options {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    font-size: 24px;
+    color: #e63946;
+    letter-spacing: 2px;
+    font-weight: bold;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 992px) {
+    .vehicle-specs-section {
+      flex-wrap: wrap;
+      gap: 15px 30px;
+    }
+    
+    .spec-item {
+      width: calc(50% - 15px);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .vehicle-card {
+      height: auto;
+      flex-direction: column;
+    }
+    
+    .vehicle-image-container, 
+    .vehicle-details {
+      width: 100%;
+    }
+    
+    .vehicle-image-container {
+      height: 200px;
+    }
+    
+    .vehicle-header {
+      flex-direction: column;
+    }
+    
+    .vehicle-price-section {
+      text-align: left;
+      margin-top: 10px;
+    }
+    
+    .more-options {
+      position: static;
+      text-align: right;
+      margin-top: 15px
+  
+  @media (max-width: 576px) {
+    .stock-header h1 {
+      font-size: 32px;
+    }
+    
+    .stock-header h2 {
+      font-size: 16px;
+    }
+    
+    .sorting-section {
+      justify-content: center;
+    }
+  }
+</style>
